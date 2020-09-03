@@ -1,0 +1,134 @@
+<div class="center">
+
+  <!-- Material form subscription -->
+  <mdb-card>
+
+    <mdb-card-header class="primary-c text-center py-4">
+      <h5>
+        <strong>CREATE NEW CONTACT</strong>
+      </h5>
+    </mdb-card-header>
+
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5">
+
+      <!-- Form -->
+      <form [formGroup]="clinicContactForm" class="text-center" style="color: #757575;">
+
+        <div class="md-form">
+          <mdb-select formControlName="clinicId" (click)="onPopulateClinicDropDown()" [options]="clinicDataSelect" placeholder="- Clinic -"></mdb-select>
+        </div>
+
+        <div class="md-form">
+          <mdb-select formControlName="prefix" [options]="prefixList" placeholder="- Prefix -"></mdb-select>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="firstName" id="firstName" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="firstName">- First Name -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="lastName" id="lastName" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="lastName">- Last Name -</label>
+        </div>
+
+        <div class="md-form">
+          <mdb-select formControlName="sufix" [options]="suffixList" placeholder="- Suffix -"></mdb-select>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="phone" id="phone" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="phone">- Phone -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="fax" id="fax" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="fax">- Fax -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="email" formControlName="email" id="email" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="email">- Email -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="number" formControlName="indNpi" id="indNpi" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="indNpi">- Ind Npi -</label>
+        </div>
+
+        <div class="md-form">
+          <mdb-select formControlName="isPrimary" [options]="booleanOption" placeholder="- Is Primary Doctor -"></mdb-select>
+        </div>
+
+        <div class="md-form">
+          <mdb-select formControlName="isContact" [options]="booleanOption" placeholder="- Is Primary Contact -"></mdb-select>
+        </div>
+
+        <div class="md-form">
+          <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+          <div class="md-form">
+            <textarea id="note" class="md-textarea form-control" mdbInput type="text"
+                      formControlName="note">
+
+                  </textarea>
+            <label for="note">- Note -</label>
+          </div>
+        </div>
+
+        <div class="right">
+          <input mdbBtn type="Reset" color="warning" (click)="onReset()" mdbWavesEffect>
+          <input mdbBtn type="submit" color="default" [disabled]="!clinicContactForm.valid" (click)="frame.show();"
+                 mdbWavesEffect>
+        </div>
+
+      </form>
+      <!-- Form -->
+
+    </mdb-card-body>
+
+  </mdb-card>
+</div>
+
+
+<!-- review data -->
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Do You Want To Create A New Contact?</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="">
+
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="success" class="waves-light" (click)="onSubmit(); frame.hide()" mdbWavesEffect>YES
+        </a>
+        <a type="button" mdbBtn color="success" outline="true" class="waves-effect" mdbWavesEffect
+           (click)="frame.hide()">NO</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<app-home-page></app-home-page>

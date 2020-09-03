@@ -1,0 +1,39 @@
+I. DATABASE
+  1. Install the latest version of mysql database and open it in port 3306
+  (For instruction on how to install mysql refer: https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/)
+  2. Install any database IDE (mysql workbench, Toad Edge for MySQL ...)
+  3. Create a new connection in the database and serve it in port 3306
+  4. Open database.txt file, copy and paste it in a new query window of the database IDE
+  5. Run the pasted scripts
+
+==> This will create the full database system for money tree billing webapp
+
+
+II. SERVICE (BACK-END)
+  1. Install the latest version of nodeJS (For instruction on how to install mysql refer: https://nodejs.org/en/)
+  2. After installing the latest version of nodeJS, open a terminal window and navigate to the back_end directory
+  3. In the terminal window type "npm i --save" and press key enter (Make sure that you are in the root path of back_end directory)
+  4. After the download and installation are completed, in the same terminal window type "npm i -g lite-server" and press key enter
+  5. After the download and installation are completed, in the same terminal window type "node app.js" and press key enter
+
+==> You should see a message stating "connected to database"
+==> You have establish a connection between the service layer (APIs) and the datbase
+
+
+III. FRONT-END (GUI)
+  1. Open a new terminal window and type "npm install -g @angular/cli" and press key enter
+  2. After the installation is complated, using the terminal window navigate to the root path of the front_end directory
+  3. Once in the root path of the front_end directory type "npm i --save" and press key enter
+  4. After the download and installation are completed, type "ng build --prod" and press key enter
+  5. After the download and installation are completed, type "npm start"
+
+==> You have started the front-end server and connected it to the service server
+
+
+IV. USAGE
+  1. Using chrome browser open the IP address of the server an path 3000 (eg: http://localhost:3000)
+  2. You should see the login page open
+
+ Use the following credentials:
+username: admin
+password: admin

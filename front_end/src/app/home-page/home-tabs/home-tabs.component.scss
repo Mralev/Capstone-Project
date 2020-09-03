@@ -1,0 +1,10 @@
+.center {
+  padding-left: 240px;
+  margin-top: 8%;
+}
+
+@media only screen and (max-width : 992px) {
+  .center {
+    padding-left: 0;
+  }
+}

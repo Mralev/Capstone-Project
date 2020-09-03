@@ -1,0 +1,32 @@
+
+<table mdbTable striped="true" mdbTableScroll scrollY="true" maxHeight="450">
+  <thead>
+  <tr>
+    <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr mdbTableCol *ngFor="let el of elements; index as i">
+    <td title="Insurance Company">{{insCo[i]}}</td>
+    <td title="Website Address"><a href="{{el.website}}" target="_blank">{{el.website}}</a></td>
+    <td title="User Name">{{el.user_name}}</td>
+    <td title="Password">{{el.password}}</td>
+    <td title="Admin">{{el.admin}}</td>
+    <td title="Security">{{el.security}}</td>
+    <td>
+      <button type="button" size="sm" mdbBtn color="teal" class="waves-light"
+              mdbPopover="{{el.note}}"
+              placement="left"
+              mdbPopoverHeader="Message from admin" mdbWavesEffect>
+        Notes
+      </button>
+      <button type="button" mdbBtn color="yellow" outline="true" rounded="true" title="Edit" size="sm" class="px-2" (click)="notImplementedMessage()" mdbWavesEffect>
+        <mdb-icon fas icon="pencil-alt" class="mt-0"></mdb-icon>
+      </button>
+      <button type="button" mdbBtn color="red" outline="true" rounded="true" title="Delete" size="sm" class="px-2" (click)="notImplementedMessage()" mdbWavesEffect>
+        <mdb-icon fas icon="times" class="mt-0"></mdb-icon>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

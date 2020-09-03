@@ -1,0 +1,52 @@
+.split-list{
+  width: 50%;
+  float: left;
+  border: 0.1px solid grey;
+}
+
+.center {
+  padding-left: 240px;
+  margin-top: 8%;
+}
+
+@media only screen and (max-width : 992px) {
+  .center {
+    padding-left: 0;
+  }
+}
+
+.right {
+  float: right;
+}
+
+.left-fav {
+  margin-top: 0.9%;
+  float: left;
+  background-color: teal;
+}
+
+.left-fav:hover {
+  margin-top: 0.9%;
+  float: left;
+  opacity: 0.6;
+  cursor: pointer;
+  background-color: teal;
+}
+
+.left-fav-added {
+  margin-top: 0.9%;
+  float: left;
+  background-color: orange;
+}
+
+.left-fav-added {
+  margin-top: 0.9%;
+  float: left;
+  opacity: 0.6;
+  cursor: pointer;
+  background-color: orange;
+}
+
+.tab-space {
+  margin-top: 450px;
+}

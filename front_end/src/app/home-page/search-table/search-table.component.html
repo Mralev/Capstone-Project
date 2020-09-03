@@ -1,0 +1,149 @@
+<div class="center">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mx-auto">
+        <div class="md-form">
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            class="form-control"
+            id="search"
+            autocomplete="off"
+            mdbInput
+          />
+          <label for="search"><i class="fa fa-search" aria-hidden="true"></i> Search</label>
+        </div>
+      </div>
+    </div>
+    <table mdbTable class="z-depth-1" mdbTableScroll scrollY="true" maxHeight="700" >
+      <thead>
+      <tr>
+        <th
+          *ngFor="let head of headElements; let i = index"
+          scope="col"
+        >
+          {{head}}
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let el of elements; let i = index">
+        <th scope="row">{{el.id}}</th>
+        <td class="red-text" (click)="findSelectedClinic(elements[i].clinicName)"
+            (click)="findSelectedClinic(elements[i].clinicName)" (click)="onOpenClinic(selectedClinicName)">
+          <a>{{el.clinicName}}</a></td>
+        <td>{{el.infinidiCode}}</td>
+        <td>{{el.MtbCode}}</td>
+        <button mdbBtn type="button" color="default" outline="true" size="sm"
+                (click)="findSelectedClinic(elements[i].clinicName)" (click)="onOpenClinic(selectedClinicName)" (click)="frame_open.show()" mdbWavesEffect>Open
+        </button>
+        <button mdbBtn type="button" color="warning" outline="true" size="sm" [hidden]=!isAdmin
+                (click)="findSelectedClinic(elements[i].clinicName)" (click)="onEditClinic(elements[i].clinicName); frameEdit.show()"
+                mdbWavesEffect>Edit
+        </button><!--hide for non admin-->
+        <button mdbBtn type="button" color="danger" outline="true" size="sm" [hidden]=!isAdmin
+                (click)="findSelectedClinic(elements[i].clinicName)" (click)="frame.show()" mdbWavesEffect>Delete
+        </button><!--hide for non admin-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- open confirm model-->
+  <div mdbModal #frame_open="mdbModal" class="modal fade top" id="frameOne" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-success" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+          <p class="heading">Are you sure?</p>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+          <p>Open clinic <strong>{{selectedClinicName}}</strong></p>
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <a href="/home" mdbBtn color="success" outline="true" class="waves-effect"
+             (click)="onOpenClinic(selectedClinicName)" (click)="frame_open.hide()" routerLink="/clinic" mdbWavesEffect>Yes</a>
+          <a type="button" mdbBtn color="success" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+             (click)="frame_open.hide()">No</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+</div>
+
+
+<!-- delete confirm model-->
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Are you sure?</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <p>Deleting clinic named <strong>{{selectedClinicName}}</strong> will put it in the archive file and will no
+          longer be available to users.</p>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a href="/home" mdbBtn color="danger" outline="true" class="waves-effect" (click)="onDeleteClinic()"
+           (click)="frame.hide()" mdbWavesEffect>Yes</a>
+        <a type="button" mdbBtn color="danger" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+           (click)="frame.hide()">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+
+<!-- delete confirm model-->
+<div mdbModal #frameEdit="mdbModal" class="modal fade top" id="frame_edit" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-warning" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Edit clinic <strong>{{selectedClinicName}}</strong></p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="box">
+          <h3>Sorry!!! We are still building this feature.</h3>
+        </div>
+
+        <div class="center">
+          <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a mdbBtn color="warning" outline="true" class="waves-effect" (click)="frameEdit.hide()" mdbWavesEffect>Yes</a>
+        <a type="button" mdbBtn color="warning" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+           (click)="frameEdit.hide()">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+

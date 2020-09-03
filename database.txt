@@ -1,0 +1,385 @@
+/*create dabase*/
+create schema money_tree_billing_db;
+
+/* use cthe created db*/
+use money_tree_billing_db;
+
+/* user table */
+CREATE TABLE `money_tree_billing_db`.`users` (
+  `userId` INT NOT NULL AUTO_INCREMENT,
+  `firstName` VARCHAR(255) NOT NULL,
+  `lastName` VARCHAR(255) NOT NULL,
+  `userName` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(500) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `isAdmin` TINYINT(1) NOT NULL,
+  `isActive` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`userId`),
+  UNIQUE INDEX `userId_UNIQUE` (`userId` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `userName_UNIQUE` (`userName` ASC) VISIBLE);
+
+/* clinic table */
+CREATE TABLE `money_tree_billing_db`.`clinics` (
+  `clinicId` INT NOT NULL AUTO_INCREMENT,
+  `displayName` VARCHAR(50) NOT NULL,
+  `clinicName` VARCHAR(255) NOT NULL,
+  `streetAddress` VARCHAR(255) NOT NULL,
+  `streetAddressTwo` VARCHAR(255) NULL,
+  `city` VARCHAR(50) NOT NULL,
+  `state` VARCHAR(50) NOT NULL,
+  `clinicEmail` VARCHAR(50) NULL,
+  `clinicPhone` VARCHAR(10) NULL,
+  `clinicFax` VARCHAR(10) NULL,
+  `taxId` VARCHAR(10) NULL,
+  `mtbCode` VARCHAR(50) NULL,
+  `mtbStartDate` DATE NULL,
+  `chiroAssociation` VARCHAR(50) NULL,
+  `chiroTouch` TINYINT(1) NULL,
+  `infinediCode` VARCHAR(50) NULL,
+  `grpNpi` VARCHAR(50) NULL,
+  `remoteAccess` VARCHAR(255) NULL,
+  `remoteUserName` VARCHAR(50) NULL,
+  `isActive` TINYINT(1) NOT NULL,
+  `dateCreated` DATE NULL,
+  PRIMARY KEY (`clinicId`),
+  UNIQUE INDEX `clinicId_UNIQUE` (`clinicId` ASC) VISIBLE);
+  ALTER TABLE `money_tree_billing_db`.`clinics` 
+ADD COLUMN `remotePassword` VARCHAR(255) NULL AFTER `remoteUserName`;
+ALTER TABLE `money_tree_billing_db`.`clinics` 
+ADD UNIQUE INDEX `displayName_UNIQUE` (`displayName` ASC) VISIBLE,
+ADD UNIQUE INDEX `clinicName_UNIQUE` (`clinicName` ASC) VISIBLE;
+ALTER TABLE `money_tree_billing_db`.`clinics` 
+ADD COLUMN `zipCode` VARCHAR(45) NOT NULL AFTER `state`;
+
+;
+
+  
+  /* clinic notes table */
+  CREATE TABLE `money_tree_billing_db`.`clinic_notes` (
+  `clinicNotesId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `clientContact` VARCHAR(50) NULL,
+  `mtmi` VARCHAR(500) NULL,
+  `treatmentNotes` LONGTEXT NULL,
+  PRIMARY KEY (`clinicNotesId`),
+  UNIQUE INDEX `clinicNoteId_UNIQUE` (`clinicNotesId` ASC) VISIBLE,
+  INDEX `clinic_note_fk_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `clinic_note_fk`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	ALTER TABLE `money_tree_billing_db`.`clinic_notes` 
+ADD COLUMN `isDeleted` TINYINT(1) NOT NULL AFTER `treatmentNotes`;
+	
+	/* billing table */
+	CREATE TABLE `money_tree_billing_db`.`billing` (
+  `billingId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `billbackDays` INT NULL,
+  `BillCaseTypePro` VARCHAR(500) NULL,
+  `BillingNotes` LONGTEXT NULL,
+  PRIMARY KEY (`billingId`),
+  UNIQUE INDEX `billingId_UNIQUE` (`billingId` ASC) VISIBLE,
+  INDEX `billing_fk_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `billing_fk`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+	/* aging table */
+	CREATE TABLE `money_tree_billing_db`.`aging` (
+  `agingId` INT NOT NULL,
+  `clinicId` INT NOT NULL,
+  `agingCaseTypePro` VARCHAR(500) NULL,
+  `oldAgeDates` DATE NULL,
+  `currentAgeDates` DATE NULL,
+  `compAgeDates` DATE NULL,
+  `agingNotes` LONGTEXT NULL,
+  PRIMARY KEY (`agingId`),
+  INDEX `aging_fk_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `aging_fk`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ALTER TABLE `money_tree_billing_db`.`aging` 
+CHANGE COLUMN `agingId` `agingId` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `agingId_UNIQUE` (`agingId` ASC) VISIBLE;
+;
+
+/* user favorite clinic table*/
+CREATE TABLE `money_tree_billing_db`.`favorite_clinic` (
+  `favoriteClinicId` INT NOT NULL AUTO_INCREMENT,
+  `userId` INT NOT NULL,
+  `clinicId` INT NOT NULL,
+  `isActive` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`favoriteClinicId`, `userId`, `clinicId`, `isActive`),
+  UNIQUE INDEX `favoriteClinicId_UNIQUE` (`favoriteClinicId` ASC) VISIBLE,
+  INDEX `fav_user_idx` (`userId` ASC) VISIBLE,
+  INDEX `fav_clinic_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `fav_user_key`
+    FOREIGN KEY (`userId`)
+    REFERENCES `money_tree_billing_db`.`users` (`userId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fav_clinic_key`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+/* office hour table */
+CREATE TABLE `money_tree_billing_db`.`office_hours` (
+  `officeHourId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `monday` VARCHAR(45) NULL,
+  `tuesday` VARCHAR(45) NULL,
+  `wednesday` VARCHAR(45) NULL,
+  `thursday` VARCHAR(45) NULL,
+  `friday` VARCHAR(45) NULL,
+  `saturday` VARCHAR(45) NULL,
+  `sunday` VARCHAR(45) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`officeHourId`),
+  UNIQUE INDEX `officeHourId_UNIQUE` (`officeHourId` ASC) VISIBLE,
+  INDEX `office_hrs_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `office_hrs_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+/* table insurance company */
+CREATE TABLE `money_tree_billing_db`.`insurance_company` (
+  `insuranceCompId` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `phone` VARCHAR(45) NULL,
+  `fax` VARCHAR(45) NULL,
+  `note` VARCHAR(500) NULL,
+  `isActive` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`insuranceCompId`),
+  UNIQUE INDEX `insuranceCompId_UNIQUE` (`insuranceCompId` ASC) VISIBLE);
+
+/* table website logins */
+CREATE TABLE `money_tree_billing_db`.`website_logins` (
+  `websiteLoginsId` INT NOT NULL AUTO_INCREMENT,
+  `insuranceCompId` INT NOT NULL,
+  `websiteAddress` VARCHAR(100) NOT NULL,
+  `userName` VARCHAR(100) NULL,
+  `password` VARCHAR(100) NULL,
+  `admin` VARCHAR(100) NULL,
+  `security` VARCHAR(100) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`websiteLoginsId`),
+  UNIQUE INDEX `websiteLoginsId_UNIQUE` (`websiteLoginsId` ASC) VISIBLE,
+  INDEX `website_insurance_comp_idx` (`insuranceCompId` ASC) VISIBLE,
+  CONSTRAINT `website_insurance_comp`
+    FOREIGN KEY (`insuranceCompId`)
+    REFERENCES `money_tree_billing_db`.`insurance_company` (`insuranceCompId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ALTER TABLE `money_tree_billing_db`.`website_logins` 
+ADD COLUMN `isActive` TINYINT(1) NOT NULL AFTER `note`;
+ALTER TABLE `money_tree_billing_db`.`website_logins` 
+ADD COLUMN `clinicId` INT NOT NULL AFTER `websiteLoginsId`,
+ADD INDEX `website_clinic_id_idx` (`clinicId` ASC) VISIBLE;
+;
+ALTER TABLE `money_tree_billing_db`.`website_logins` 
+ADD CONSTRAINT `website_clinic_id`
+  FOREIGN KEY (`clinicId`)
+  REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+/* patient statement table */
+CREATE TABLE `money_tree_billing_db`.`patient_statement` (
+  `patientStatementId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NULL,
+  `patCaseTypePro` VARCHAR(450) NULL,
+  `patGlobWriteOff` VARCHAR(450) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`patientStatementId`),
+  UNIQUE INDEX `patientStatementId_UNIQUE` (`patientStatementId` ASC) VISIBLE,
+  INDEX `patient_clinic_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `patient_clinic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+	/* deposit entry */
+	CREATE TABLE `money_tree_billing_db`.`deposit_entry` (
+  `depositEntryId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `depositName` VARCHAR(255) NULL,
+  `depositPr` VARCHAR(100) NULL,
+  `depositStatus` VARCHAR(255) NULL,
+  `writeOff` VARCHAR(500) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`depositEntryId`),
+  UNIQUE INDEX `depositEntryId_UNIQUE` (`depositEntryId` ASC) VISIBLE,
+  INDEX `deposit_entry_clnic_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `deposit_entry_clnic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+	/* month end table */
+	CREATE TABLE `money_tree_billing_db`.`month_end` (
+  `monthEndId` INT NOT NULL AUTO_INCREMENT,
+  `clnicId` INT NOT NULL,
+  `monthCaseTypePro` VARCHAR(500) NULL,
+  `ctCashCodes` VARCHAR(255) NULL,
+  `clinicInvoiceEmail` VARCHAR(50) NULL,
+  `statsGraph` VARCHAR(500) NULL,
+  `statsGraphToClinic` VARCHAR(500) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`monthEndId`),
+  UNIQUE INDEX `monthEndId_UNIQUE` (`monthEndId` ASC) VISIBLE,
+  INDEX `month_end_clinic_id_idx` (`clnicId` ASC) VISIBLE,
+  CONSTRAINT `month_end_clinic_id`
+    FOREIGN KEY (`clnicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	ALTER TABLE `money_tree_billing_db`.`month_end` 
+DROP FOREIGN KEY `month_end_clinic_id`;
+ALTER TABLE `money_tree_billing_db`.`month_end` 
+CHANGE COLUMN `clnicId` `clinicId` INT(11) NOT NULL ;
+ALTER TABLE `money_tree_billing_db`.`month_end` 
+ADD CONSTRAINT `month_end_clinic_id`
+  FOREIGN KEY (`clinicId`)
+  REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`);
+
+/remits table */
+CREATE TABLE `money_tree_billing_db`.`remits` (
+  `remitsId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `insuranceCompId` INT NOT NULL,
+  `whereToFind` VARCHAR(255) NULL,
+  `whenToPost` VARCHAR(255) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`remitsId`),
+  UNIQUE INDEX `remitsId_UNIQUE` (`remitsId` ASC) VISIBLE,
+  INDEX `remit_clinic_id_idx` (`clinicId` ASC) VISIBLE,
+  INDEX `remit_insurance_comp_id_idx` (`insuranceCompId` ASC) VISIBLE,
+  CONSTRAINT `remit_clinic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `remit_insurance_comp_id`
+    FOREIGN KEY (`insuranceCompId`)
+    REFERENCES `money_tree_billing_db`.`insurance_company` (`insuranceCompId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+/* in network table */
+CREATE TABLE `money_tree_billing_db`.`in_networks` (
+  `networkId` INT NOT NULL AUTO_INCREMENT,
+  `clnicId` INT NOT NULL,
+  `insuranceCompId` INT NOT NULL,
+  `inNetwork` TINYINT(1) NOT NULL,
+  `inNetworkDate` DATE NULL,
+  `fileClaimTo` VARCHAR(255) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`networkId`),
+  UNIQUE INDEX `networkId_UNIQUE` (`networkId` ASC) VISIBLE,
+  INDEX `network_clinic_id_idx` (`clnicId` ASC) VISIBLE,
+  INDEX `network_insurance_company_id_idx` (`insuranceCompId` ASC) VISIBLE,
+  CONSTRAINT `network_clinic_id`
+    FOREIGN KEY (`clnicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `network_insurance_company_id`
+    FOREIGN KEY (`insuranceCompId`)
+    REFERENCES `money_tree_billing_db`.`insurance_company` (`insuranceCompId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ALTER TABLE `money_tree_billing_db`.`in_networks` 
+DROP FOREIGN KEY `network_clinic_id`;
+ALTER TABLE `money_tree_billing_db`.`in_networks` 
+CHANGE COLUMN `clnicId` `clinicId` INT(11) NOT NULL ;
+ALTER TABLE `money_tree_billing_db`.`in_networks` 
+ADD CONSTRAINT `network_clinic_id`
+  FOREIGN KEY (`clinicId`)
+  REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`);
+
+/* mtb distribution */
+CREATE TABLE `money_tree_billing_db`.`mtb_distribution` (
+  `mtbDistributionId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `clientContact` VARCHAR(45) NULL,
+  `contactExt` VARCHAR(45) NULL,
+  `deposit` VARCHAR(50) NULL,
+  `billing` VARCHAR(45) NULL,
+  `statements` VARCHAR(50) NULL,
+  `finance` VARCHAR(50) NULL,
+  `numberMtbComp` INT NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`mtbDistributionId`),
+  UNIQUE INDEX `mtbDistributionId_UNIQUE` (`mtbDistributionId` ASC) VISIBLE,
+  INDEX `distribution_clinic_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `distribution_clinic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
+	/* drop box table */
+	CREATE TABLE `money_tree_billing_db`.`drop_box` (
+  `dropBoxId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `user` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `aprovInfo` VARCHAR(45) NULL,
+  `note` VARCHAR(500) NULL,
+  PRIMARY KEY (`dropBoxId`),
+  UNIQUE INDEX `dropBoxId_UNIQUE` (`dropBoxId` ASC) VISIBLE,
+  INDEX `dp_clinic_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `dp_clinic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+/* contact table */
+CREATE TABLE `money_tree_billing_db`.`contact` (
+  `contactId` INT NOT NULL AUTO_INCREMENT,
+  `clinicId` INT NOT NULL,
+  `firstName` VARCHAR(255) NOT NULL,
+  `lastName` VARCHAR(255) NOT NULL,
+  `prefix` VARCHAR(45) NULL,
+  `sufix` VARCHAR(45) NULL,
+  `phone` VARCHAR(45) NULL,
+  `fax` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `indNpi` INT NULL,
+  `isPrimary` TINYINT(1) NULL,
+  `isContact` TINYINT(1) NULL,
+  PRIMARY KEY (`contactId`),
+  UNIQUE INDEX `contactId_UNIQUE` (`contactId` ASC) VISIBLE,
+  INDEX `contact_clinic_id_idx` (`clinicId` ASC) VISIBLE,
+  CONSTRAINT `contact_clinic_id`
+    FOREIGN KEY (`clinicId`)
+    REFERENCES `money_tree_billing_db`.`clinics` (`clinicId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ALTER TABLE `money_tree_billing_db`.`contact` 
+ADD COLUMN `isActive` TINYINT(1) NOT NULL AFTER `isContact`;
+ALTER TABLE `money_tree_billing_db`.`contact` 
+ADD COLUMN `note` VARCHAR(500) NULL AFTER `isActive`;
+
+
+	
+
+
+

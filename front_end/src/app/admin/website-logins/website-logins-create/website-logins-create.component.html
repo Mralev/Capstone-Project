@@ -1,0 +1,117 @@
+<div class="center">
+
+  <!-- Material form subscription -->
+  <mdb-card>
+
+    <mdb-card-header class="primary-c text-center py-4">
+      <h5>
+        <strong>CREATE NEW WEBSITE LOGIN</strong>
+      </h5>
+    </mdb-card-header>
+
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5">
+
+      <!-- Form -->
+      <form [formGroup]="websiteLoginsForm" class="text-center" style="color: #757575;">
+
+        <div class="md-form">
+          <mdb-select formControlName="clinicId" (click)="onPopulateClinicDropDown()" [options]="clinicDataSelect" placeholder="Clinic"></mdb-select>
+        </div>
+
+        <div class="md-form">
+          <mdb-select formControlName="insuranceCompId" (click)="onPopulateDropDown()" [options]="insCompDataSelect" placeholder="Insurance Company"></mdb-select>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="websiteAddress" id="websiteAddress" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="websiteAddress">- Website Address -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="userName" id="userName" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="userName">- User Name -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="password" id="password" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="password">- Password -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="admin" id="admin" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="admin">- Admin -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="security" id="security" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="security">- Security -</label>
+        </div>
+
+
+        <div class="md-form">
+          <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+          <div class="md-form">
+            <textarea id="note" class="md-textarea form-control" mdbInput type="text"
+                      formControlName="note">
+
+                  </textarea>
+            <label for="note">- Note -</label>
+          </div>
+        </div>
+
+        <div class="right">
+          <input mdbBtn type="Reset" color="warning" (click)="onReset()" mdbWavesEffect>
+          <input mdbBtn type="submit" color="default" [disabled]="!websiteLoginsForm.valid" (click)="frame.show();"
+                 mdbWavesEffect>
+        </div>
+
+      </form>
+      <!-- Form -->
+
+    </mdb-card-body>
+
+  </mdb-card>
+</div>
+
+
+<!-- review data -->
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Do You Want To Create A New Website Login?</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="">
+
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="success" class="waves-light" (click)="onSubmit(); frame.hide()" mdbWavesEffect>YES
+        </a>
+        <a type="button" mdbBtn color="success" outline="true" class="waves-effect" mdbWavesEffect
+           (click)="frame.hide()">NO</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<app-home-page></app-home-page>

@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+header, main, footer {
+  padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+.navbar {
+  z-index: 1040;
+}
+.side-nav {
+  margin-top: 49px !important;
+}
+
+.double-nav .breadcrumb-dn p {
+  color: #fff;
+}
+
+.top-space{
+  margin-top: 8%;
+}
+
+// Change main active link appearance
+mdb-accordion-item-head.active a h5 {
+  color: red !important;
+  background-color: yellow !important;
+}
+
+// Change nested active links appearance
+mdb-accordion-item-body a.active {
+  color: red !important;
+  background-color: yellow !important;
+}
+
+.admin-container {
+  border: solid teal 2px;
+  padding-top: 5px;
+}
+
+.admin-head {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  opacity: 0.8;
+  font-size: large;
+}

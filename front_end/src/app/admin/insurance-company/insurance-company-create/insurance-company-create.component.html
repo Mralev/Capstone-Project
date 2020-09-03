@@ -1,0 +1,99 @@
+<div class="center">
+
+  <!-- Material form subscription -->
+  <mdb-card>
+
+    <mdb-card-header class="primary-c text-center py-4">
+      <h5>
+        <strong>CREATE NEW INSURANCE COMPANY</strong>
+      </h5>
+    </mdb-card-header>
+
+    <!--Card content-->
+    <mdb-card-body class="px-lg-5">
+
+      <!-- Form -->
+      <form [formGroup]="insuranceCompanyForm" class="text-center" style="color: #757575;">
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="insuranceCompName" id="name" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="name">- Insurance Company Name -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="insuranceCompPhone" id="phone" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="phone">- Insurance Company Phone -</label>
+        </div>
+
+        <div class="md-form mt-3">
+          <input type="text" formControlName="insuranceCompFax" id="fax" class="form-control" autocomplete="off"
+                 mdbInput>
+          <label for="fax">- Insurance Company Fax -</label>
+        </div>
+
+        <div class="md-form">
+          <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+          <div class="md-form">
+            <textarea id="note" class="md-textarea form-control" mdbInput type="text"
+                      formControlName="insuranceCompNote">
+
+                  </textarea>
+            <label for="note">- Note -</label>
+          </div>
+        </div>
+
+        <div class="right">
+          <input mdbBtn type="Reset" color="warning" (click)="onReset()" mdbWavesEffect>
+          <input mdbBtn type="submit" color="default" [disabled]="!insuranceCompanyForm.valid" (click)="frame.show();"
+                 mdbWavesEffect>
+        </div>
+
+      </form>
+      <!-- Form -->
+
+    </mdb-card-body>
+
+  </mdb-card>
+</div>
+
+
+<!-- review data -->
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Please Review And Confirm</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="">
+          <p><strong>INSURANCE COMPANY NAME: </strong> {{insuranceCompanyForm.value.insuranceCompName}} </p>
+          <p><strong>PHONE: </strong>{{insuranceCompanyForm.value.insuranceCompPhone}}</p>
+          <p><strong>FAX: </strong>{{insuranceCompanyForm.value.insuranceCompFax}}</p>
+          <p><strong>NOTE: </strong>{{insuranceCompanyForm.value.insuranceCompNote}}</p>
+        </div>
+      </div>
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="success" class="waves-light" (click)="onSubmit(); frame.hide()" mdbWavesEffect>CONFIRM
+        </a>
+        <a type="button" mdbBtn color="success" outline="true" class="waves-effect" mdbWavesEffect
+           (click)="frame.hide()">CANCEL</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<app-home-page></app-home-page>

@@ -1,0 +1,37 @@
+
+<div class="center">
+  <!-- Nav Tabs -->
+  <mdb-tabset #staticTabs [buttonClass]="'md-tabs tabs-5'" [contentClass]="'card'">
+    <!--Panel 1-->
+    <mdb-tab heading="CLINICS">
+      <div class="row">
+        <div class="col-12">
+          <br>
+          <app-search-table></app-search-table>
+        </div>
+      </div>
+    </mdb-tab>
+    <!--Panel 2-->
+    <mdb-tab heading="DROPBOX">
+      <div class="row">
+        <div class="col-12">
+
+          <app-home-dropbox></app-home-dropbox>
+
+        </div>
+      </div>
+    </mdb-tab>
+    <!--Panel 3-->
+    <mdb-tab heading="TUTORIAL">
+      <div class="row">
+        <div class="col-12">
+
+          <app-home-resource></app-home-resource>
+
+        </div>
+      </div>
+    </mdb-tab>
+  </mdb-tabset>
+</div>
+
+<app-home-page></app-home-page>

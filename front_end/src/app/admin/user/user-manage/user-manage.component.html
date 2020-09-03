@@ -1,0 +1,139 @@
+<div class="center">
+
+  <div class="head">
+    <h4>MANAGE USER</h4>
+  </div>
+
+  <mdb-card>
+    <mdb-card-body>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mx-auto">
+            <div class="md-form">
+              <input
+                type="text"
+                [(ngModel)]="searchText"
+                class="form-control"
+                id="search"
+                autocomplete="off"
+                mdbInput
+              />
+              <label for="search"><i class="fa fa-search" aria-hidden="true"></i> Search</label>
+            </div>
+          </div>
+        </div>
+        <table mdbTable class="z-depth-1" mdbTableScroll scrollY="true" maxHeight="700">
+          <thead>
+          <tr>
+            <th
+              *ngFor="let head of headElements; let i = index"
+              scope="col"
+            >
+              {{head}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let el of elements; let i = index">
+            <th scope="row">{{el.id}}</th>
+            <td>{{el.firstName}}</td>
+            <td>{{el.lastName}}</td>
+            <td>{{el.userName}}</td>
+            <td><strong>{{el.isAdmin}}</strong></td>
+            <td style="color: red"><strong>{{el.isActive}}</strong></td>
+            <td>{{el.email}}</td>
+            <td>
+              <button mdbBtn type="button" color="warning" outline="true" size="sm" (click)="onGetSelectedUser(i); onSetEditFormValue(); frame.show()"
+                      mdbWavesEffect>EDIT
+              </button><!--hide for non admin-->
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </mdb-card-body>
+  </mdb-card>
+
+</div>
+
+
+<div mdbModal #frame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-warning" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Edit User</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <!-- Default form row -->
+        <form [formGroup]="userEditForm">
+
+          <div class="form-row">
+            <div class="col">
+              <div class="md-form">
+                <input mdbInput type="text" formControlName="firstName" id="form1" class="form-control">
+                <label for="form1" class="">- First Name -</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form">
+                <input mdbInput type="text" formControlName="lastName" id="form2" class="form-control">
+                <label for="form2" class="">- Last Name -</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col">
+              <div class="md-form">
+                <input mdbInput type="text" formControlName="userName" id="form3" class="form-control">
+                <label for="form3" class="">- User Name -</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="md-form">
+                <input mdbInput type="email" formControlName="email" id="form4" class="form-control">
+                <label for="form4" class="">- Email -</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="col">
+              <div class="row">
+                <div class="col-md-10">
+                  <mdb-select [options]="adminOptionsSelect" formControlName="isAdmin" placeholder="{{isAdmin}}" label="- Is Admin -"></mdb-select>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-md-10">
+                <mdb-select [options]="activeOptionsSelect" formControlName="isActive" placeholder="{{isActive}}" label="- Is Active -"></mdb-select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a mdbBtn color="warning" class="waves-light" (click)="onUpdateUser(); frame.hide()" mdbWavesEffect>CONFIRM</a>
+        <a type="button" mdbBtn color="warning" outline="true" class="waves-light" mdbWavesEffect data-dismiss="modal"
+           (click)="frame.hide()">CANCEL</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<app-home-page></app-home-page>
+

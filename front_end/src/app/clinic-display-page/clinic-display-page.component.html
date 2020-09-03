@@ -1,0 +1,421 @@
+<div class="center">
+
+  <!--  <a mdbBtn floating="true" size="sm" gradient="blue" mdbWavesEffect>-->
+  <!--    <mdb-icon fas icon="star"></mdb-icon>-->
+  <!--  </a>-->
+  <mdb-card>
+    <mdb-card-header style="text-align: center">
+
+      <mdb-badge class="left-fav" [hidden]="isFavoriteClinic" (click)="onAddClinicToFav()" pill="true"
+                 title="{{changeIconText}}">
+        <mdb-icon fas icon="heart" size="2x" mdbWavesEffect></mdb-icon>
+      </mdb-badge>
+
+      <mdb-badge class="left-fav-added" [hidden]="!isFavoriteClinic" (click)="onRemoveClinicToFav()" pill="true"
+                 title="{{changeIconText}}">
+        <mdb-icon fas icon="heart" size="2x" mdbWavesEffect></mdb-icon>
+      </mdb-badge>
+
+      <span style="font-weight: bolder;font-size: 1.5em">Clinic Details</span>
+
+      <button (click)="frame.show()" [disabled]="noteDataAvailable" type="button" mdbBtn color="teal"
+              class="waves-light right">
+        Notes
+        <mdb-badge pill="true" color="red"><strong> {{numberOfNotes}} </strong></mdb-badge>
+      </button>
+
+    </mdb-card-header>
+    <mdb-card-body>
+      <mdb-card-title>
+      </mdb-card-title>
+
+      <div class="split-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Clinic Id: </strong> {{clinicData[0].clinicId}} </li>
+          <li class="list-group-item"><strong>Clinic Name:</strong> {{clinicData[0].clinicName}} </li>
+          <li class="list-group-item"><strong>Clinic Address:</strong> {{clinicAddress}} </li>
+          <li class="list-group-item"><strong>Clinic Email:</strong> {{clinicData[0].clinicEmail}} </li>
+          <li class="list-group-item"><strong>Clinic Phone:</strong> {{clinicData[0].clinicPhone}} </li>
+          <li class="list-group-item"><strong>Clinic Fax:</strong> {{clinicData[0].clinicFax}} </li>
+          <li class="list-group-item"><strong>Tax ID#: </strong> {{clinicData[0].taxId}} </li>
+          <li class="list-group-item"><strong>MTB Code: </strong> {{clinicData[0].mtbCode}} </li>
+        </ul>
+      </div>
+
+      <div class="split-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>MTP Start
+            Date: </strong> {{clinicData[0].mtbStartDate | date:"MM/dd/yyyy"}} </li>
+          <li class="list-group-item"><strong>Chiro Association: </strong> {{clinicData[0].chiroAssociation}} </li>
+          <li class="list-group-item"><strong>Chiro Touch:</strong> {{chiroTouch}} </li>
+          <li class="list-group-item"><strong>Infinedi Code:</strong> {{clinicData[0].infinediCode}} </li>
+          <li class="list-group-item"><strong>GRP NPI:</strong> {{clinicData[0].grpNpi}}</li>
+          <li class="list-group-item"><strong>Remote Access: </strong> {{clinicData[0].remoteAccess}} </li>
+          <li class="list-group-item"><strong>Remote Username: </strong> {{clinicData[0].remoteUserName}} </li>
+          <li class="list-group-item"><strong>Remote Password:</strong> {{clinicData[0].remotePassword}} </li>
+        </ul>
+      </div>
+
+      <div class="tab-space">
+        <hr>
+      </div>
+
+      <!-- Nav tabs -->
+      <mdb-tabset [buttonClass]="'classic-tabs tabs-default'" [contentClass]="'card'" class="classic-tabs"
+                  (click)="onUpdateInsuranceCompanyName()">
+        <!--Panel 1-->
+        <mdb-tab heading="Billing">
+          <div class="row">
+            <div class="col-12">
+              <br>
+
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Billing</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicBillingObj.BillingNotes}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfBillingNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicBilling()">
+                  <p><strong>Bill back: </strong> {{clinicBillingObj.billBackDays}} day(s)</p>
+                  <hr>
+                  <p><strong>Billing Case Type Pro: </strong> {{clinicBillingObj.BillCaseTypePro}}</p>
+                  <hr>
+                  <p><strong>Billing Notes: </strong>{{clinicBillingObj.BillingNotes}} </p>
+                </mdb-card-body>
+              </mdb-card>
+
+            </div>
+          </div>
+        </mdb-tab>
+
+        <!--Panel 2-->
+        <mdb-tab heading="Agings">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Agings</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicAgingObj.agingNotes}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfAgingNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicAging()">
+
+                  <p><strong>Aging Case Type Pro: </strong>{{clinicAgingObj.agingCaseTypePro}}</p>
+                  <hr>
+                  <p><strong>Old Age Date:</strong> {{clinicAgingObj.oldAgeDates | date:"MM/dd/yyyy"}}</p>
+                  <hr>
+                  <p><strong>Current Age Dates:</strong> {{clinicAgingObj.currentAgeDates | date:"MM/dd/yyyy"}}</p>
+                  <hr>
+                  <p><strong>Comp Age Dates:</strong> {{clinicAgingObj.compAgeDates | date:"MM/dd/yyyy"}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicAgingObj.agingNotes}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Patient Statement">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Patient Statement</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicPatientStatementObj.note}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfPStatementNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicPatientStatement()">
+
+                  <p><strong>Patient Case Type Pro: </strong>{{clinicPatientStatementObj.patCaseTypePro}}</p>
+                  <hr>
+                  <p><strong>Patient Glob Write Off:</strong> {{clinicPatientStatementObj.patGlobWriteOff}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicPatientStatementObj.note}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Deposit Entry">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Deposit Entry</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicDepositEntryObj.note}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfDepEntryNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicDepositEntry()">
+
+                  <p><strong>Deposit Name: </strong>{{clinicDepositEntryObj.depositName}}</p>
+                  <hr>
+                  <p><strong>Deposit Pr:</strong> {{clinicDepositEntryObj.depositPr}}</p>
+                  <hr>
+                  <p><strong>Deposit Status:</strong> {{clinicDepositEntryObj.depositStatus}}</p>
+                  <hr>
+                  <p><strong>Write Off:</strong> {{clinicDepositEntryObj.writeOff}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicDepositEntryObj.note}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Month End">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Month End</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicMonthEndObj.agingNotes}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfMonthEndNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicMonthEnd()">
+
+                  <p><strong>Month Case Type Pro: </strong>{{clinicMonthEndObj.monthCaseTypePro}}</p>
+                  <hr>
+                  <p><strong>Clinic Invoice Email:</strong> {{clinicMonthEndObj.clinicInvoiceEmail}}</p>
+                  <hr>
+                  <p><strong>Ct Cash Codes:</strong> {{clinicMonthEndObj.ctCashCodes}}</p>
+                  <hr>
+                  <p><strong>Stats Graph:</strong> {{clinicMonthEndObj.statsGraph}}</p>
+                  <hr>
+                  <p><strong>Stats Graph To Clinic:</strong> {{clinicMonthEndObj.statsGraphToClinic}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicMonthEndObj.note}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Remits">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Remits</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicRemitsObj.note}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfRemitsNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicRemits()">
+
+                  <p><strong>Insurance Company: </strong>{{insuranceCompanyName}}</p>
+                  <hr>
+                  <p><strong>When To Post:</strong> {{clinicRemitsObj.whenToPost}}</p>
+                  <hr>
+                  <p><strong>Where To Post:</strong> {{clinicRemitsObj.whereToFind}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicRemitsObj.note}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="In Network">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">In Network</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicNetworkObj.note}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfNetworkNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicNetwork()">
+
+                  <p><strong>Insurance Company: </strong>{{insuranceCompanyName}}</p>
+                  <hr>
+                  <p><strong>In Network:</strong> {{inNetwork}}</p>
+                  <hr>
+                  <p><strong>In Network Date:</strong> {{clinicNetworkObj.inNetworkDate | date:"MM/dd/yyyy"}}</p>
+                  <hr>
+                  <p><strong>File Claim To:</strong> {{clinicNetworkObj.fileClaimTo}}</p>
+                  <hr>
+                  <p><strong>Note:</strong> {{clinicNetworkObj.note}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Website Logins">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Website Logins</span>
+
+                </mdb-card-header>
+                <mdb-card-body>
+
+                  <app-clinic-display-weblogins-datatable></app-clinic-display-weblogins-datatable>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Contact">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Contact</span>
+
+                </mdb-card-header>
+                <mdb-card-body>
+
+                  <app-clininc-display-contact-datatable></app-clininc-display-contact-datatable>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+
+        <mdb-tab heading="Office Hours">
+          <div class="row">
+            <div class="col-12">
+              <br>
+              <mdb-card>
+                <mdb-card-header style="text-align: center; background-color:#BED9DA">
+                  <span style="font-weight: bolder;font-size: 1.5em">Office Hours</span>
+                  <button style="float: right" type="button" mdbBtn color="teal" class="waves-light"
+                          mdbPopover="{{clinicOfficeHoursObj.note}}"
+                          placement="left"
+                          mdbPopoverHeader="Message from admin" mdbWavesEffect>
+                    Notes
+                    <mdb-badge pill="true" color="red"><strong> {{numberOfOfficeHoursNotes}} </strong></mdb-badge>
+                  </button>
+
+                </mdb-card-header>
+                <mdb-card-body [hidden]="clinicOfficeHours()">
+
+                  <p><strong>Monday: </strong>{{clinicOfficeHoursObj.monday}}</p>
+                  <hr>
+                  <p><strong>Tuesday:</strong> {{clinicOfficeHoursObj.tuesday}}</p>
+                  <hr>
+                  <p><strong>Wednesday:</strong> {{clinicOfficeHoursObj.wednesday}}</p>
+                  <hr>
+                  <p><strong>Thursday:</strong> {{clinicOfficeHoursObj.thursday}}</p>
+                  <hr>
+                  <p><strong>Friday:</strong> {{clinicOfficeHoursObj.friday}}</p>
+                  <hr>
+                  <p><strong>Saturday:</strong> {{clinicOfficeHoursObj.saturday}}</p>
+                  <hr>
+                  <p><strong>Sunday:</strong> {{clinicOfficeHoursObj.sunday}}</p>
+
+                </mdb-card-body>
+              </mdb-card>
+            </div>
+          </div>
+        </mdb-tab>
+
+      </mdb-tabset>
+    </mdb-card-body>
+  </mdb-card>
+</div>
+
+<!-- clinic notes modal -->
+<div mdbModal #frame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true" scrollY="true" maxHeight="400">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <mdb-card *ngFor="let note of clinicNotes; let i = index" class="mb-3" borderColor="border-primary"
+                      style="max-width: 60rem">
+              <mdb-card-header>Note {{i + 1}}</mdb-card-header>
+              <mdb-card-body>
+                <strong> MTMI: </strong>{{note.mtmi}}<br>
+                <strong>Clinic Contact: </strong>{{note.clientContact}}<br>
+                <strong>Treatment Note: </strong>{{note.treatmentNotes}}
+              </mdb-card-body>
+            </mdb-card>
+
+            <button mdbBtn (click)="frame.hide()" type="button" color="primary" outline="true" style="float: right"
+                    mdbWavesEffect>Close
+            </button>
+          </div>
+
+          <div class="col-lg-7">
+            <!-- /.Add to Cart -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-home-page></app-home-page>

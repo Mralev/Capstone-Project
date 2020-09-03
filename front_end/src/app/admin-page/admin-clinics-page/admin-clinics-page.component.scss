@@ -1,0 +1,21 @@
+.split-list{
+  width: 50%;
+  float: left;
+  border: 0.1px solid grey;
+}
+
+.center {
+  padding-left: 240px;
+  margin-top: 2%;
+  margin-right: 0.5%;
+}
+
+@media only screen and (max-width : 992px) {
+  .center {
+    padding-left: 0;
+  }
+}
+
+.right{
+  float: right;
+}

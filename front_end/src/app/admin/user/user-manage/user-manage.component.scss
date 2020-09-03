@@ -1,0 +1,47 @@
+.split-list{
+  width: 50%;
+  float: left;
+  border: 0.1px solid grey;
+}
+
+.center {
+  width: 70%;
+  margin-top: 8%;
+  margin-right: 30%;
+  margin-left: 22%;
+}
+
+.right {
+  float: right;
+}
+
+@media only screen and (max-width : 992px) {
+  .center {
+    padding-left: 0;
+    width: 100%;
+    margin-top: 15%;
+    margin-right: 2%;
+    margin-left: 2%;
+  }
+}
+
+.primary-c {
+  background-color: #2bbbad ;
+  color: white;
+}
+
+.username {
+  text-align: center;
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.head {
+  height: 100px;
+  width: 100%;
+  background-color: #2bbbad;
+  text-align: center;
+  padding-top: 30px;
+  font-weight: bolder;
+  color: white;
+}

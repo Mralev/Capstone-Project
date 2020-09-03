@@ -1,0 +1,777 @@
+<div class="center">
+
+  <mdb-stepper #stepper [vertical]="true">
+    <mdb-step name="Step 1" label="Enter Clinic Details" [stepForm]="clinicForm">
+      <mdb-card>
+
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong>Create A New Clinic</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicForm" (ngSubmit)="onSubmitClinic()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="displayName" class="form-control"
+                       placeholder="- Clinic Short Name -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="clinicName" class="form-control"
+                       placeholder="- Clinic Full Name -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="streetAddress" class="form-control"
+                       placeholder="- Clinic Street Address -">
+              </div>
+            </div>
+            <!-- Grd row -->
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="streetAddressTwo" class="form-control"
+                       placeholder="- Clinic Street Address Two -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="city" class="form-control" placeholder="- Clinic City - "
+                       title="Enter the name of the city">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="state" class="form-control" placeholder="- Clinic State -">
+              </div>
+            </div>
+            <!-- Grd row -->
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="zipCode" class="form-control"
+                       placeholder="- Clinic Zip Code -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="clinicEmail" class="form-control"
+                       placeholder="- Clinic Email Address -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="clinicPhone" class="form-control"
+                       placeholder="- Clinic Phone Number -" maxlength="10">
+              </div>
+            </div>
+            <!-- Grd row -->
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="clinicFax" class="form-control"
+                       placeholder="- Clinic Fax Number -" maxlength="10">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="taxId" class="form-control" placeholder="- Clinic Tax Id -"
+                       maxlength="10">
+              </div>
+              <div class="col">
+                <input mdbInput type="email" formControlName="mtbCode" class="form-control"
+                       placeholder="- Clinic MTB Code -">
+              </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="date" formControlName="mtbStartDate" class="form-control" placeholder="">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="chiroAssociation" class="form-control"
+                       placeholder="- Chiro Association -">
+              </div>
+              <div class="col">
+                <select class="browser-default custom-select" (change)="selectChangeHandler($event)">
+                  <option selected>- Chiro Touch -</option>
+                  <option value=1>YES</option>
+                  <option value=0>NO</option>
+                </select>
+              </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="infinediCode" class="form-control"
+                       placeholder="- Infinedi Code -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="grpNpi" class="form-control" placeholder="- GRP NPI -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="remoteAccess" class="form-control"
+                       placeholder="- Remote Access -">
+              </div>
+            </div>
+            <br>
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="remoteUserName" class="form-control"
+                       placeholder="- Remote User Name -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="remotePassword" class="form-control"
+                       placeholder="- Remote Password -">
+              </div>
+              <div class="col">
+                <input mdbInput disabled type="text" class="form-control" placeholder="Author: {{sessionUser}}">
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+          <!-- Default form row -->
+        </mdb-card-body>
+
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 2" label="Enter Clinic Notes" [stepForm]="clinicNoteForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong>Add Note To Clinic {{clinicName}}</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicNoteForm" (ngSubmit)="onSubmitClinicNote()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="clientContact" class="form-control"
+                       placeholder="- client Contact -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="mtmi" class="form-control"
+                       placeholder="- MTMI -">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="treatment" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="treatmentNotes">
+
+                  </textarea>
+                  <label for="treatment">- Treatment Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicNoteForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+          <!-- Default form row -->
+        </mdb-card-body>
+
+      </mdb-card>
+
+    </mdb-step>
+
+
+    <mdb-step name="Step 3" label="Enter Clinic Billing Details" [stepForm]="clinicBillingForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong>{{clinicName}} Add Clinic Billing Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicBillingForm" (ngSubmit)="onSubmitClinicBilling()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="number" formControlName="billBackDays" class="form-control"
+                       placeholder="- Bill back day(s) -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="BillCaseTypePro" class="form-control"
+                       placeholder="- Billing Case Type Pro -">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="form8" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="BillingNotes">
+
+                  </textarea>
+                  <label for="form8">- Billing Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicBillingForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicBillingForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+          <!-- Default form row -->
+        </mdb-card-body>
+
+      </mdb-card>
+
+    </mdb-step>
+
+
+    <mdb-step name="Step 4" label="Enter Clinic Aging Details" [stepForm]="clinicAgingForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Aging Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicAgingForm" (ngSubmit)="onSubmitClinicAging()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="agingCaseTypePro" class="form-control"
+                       placeholder="- Aging Case Type Pro -">
+              </div>
+              <div class="col">
+                <input mdbInput type="date" formControlName="oldAgeDates" class="form-control"
+                       title="- Old Age Date -">
+              </div>
+              <div class="col">
+                <input mdbInput type="date" formControlName="currentAgeDates" class="form-control"
+                       title="- Current Age Date -">
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="date" formControlName="compAgeDates" class="form-control"
+                       title="- Comp Age Date -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" class="form-control" disabled="true">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="aging" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="agingNotes">
+
+                  </textarea>
+                  <label for="aging">- Aging Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicAgingForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicAgingForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 5" label="Enter Patient Statement Details" [stepForm]="clinicPatientStatementForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Patient Statement Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicPatientStatementForm" (ngSubmit)="onSubmitClinicPatientStatement()"
+                (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="patCaseTypePro" class="form-control"
+                       placeholder="- Patient Case Type Pro -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="patGlobWriteOff" class="form-control"
+                       placeholder="- Patient Glob Write Off -">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="statement" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="patientStatementMote">
+
+                  </textarea>
+                  <label for="statement">- Patient Statement Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicPatientStatementForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicPatientStatementForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 6" label="Enter Deposit Entry Details" [stepForm]="clinicDepositEntryForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Deposit Entry Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicDepositEntryForm" (ngSubmit)="onSubmitClinicDepositEntry()"
+                (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="depositName" class="form-control"
+                       placeholder="- Deposit Name -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="depositPr" class="form-control"
+                       placeholder="- Deposit Pr -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="depositStatus" class="form-control"
+                       placeholder="- Deposit Status -">
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="writeOff" class="form-control"
+                       placeholder="- Write Off -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" class="form-control"
+                       [disabled]="true">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="dep_entry" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="depositEntryNote">
+
+                  </textarea>
+                  <label for="dep_entry">- Deposit Entry Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicDepositEntryForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicDepositEntryForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 7" label="Enter Month End Details" [stepForm]="clinicMonthEndForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Month End Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicMonthEndForm" (ngSubmit)="onSubmitClinicMonthEnd()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="monthCaseTypePro" class="form-control"
+                       placeholder="- Month Case Type Pro -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="ctCashCodes" class="form-control"
+                       placeholder="- Ct Cash Codes -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="clinicInvoiceEmail" class="form-control"
+                       placeholder="- Clinic Invoice Email -">
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="statsGraph" class="form-control"
+                       placeholder="- Stats Graph -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" class="form-control" formControlName="statsGraphToClinic"
+                       placeholder="- Stats Graph To Clinic -">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="month_end" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="monthEndNote">
+
+                  </textarea>
+                  <label for="month_end">- Month End Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicMonthEndForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicMonthEndForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 8" label="Enter Remits Details" [stepForm]="clinicRemitsForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Remits Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicRemitsForm" (ngSubmit)="onSubmitClinicRemits()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <div class="md-form" (click)="onPopulateDropDown()">
+                  <div [hidden]="!isLoading" class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <mdb-select formControlName="insuranceCompId" [hidden]="isLoading" [options]="remitsOptionsSelect"
+                              placeholder="- Insurance Company -"></mdb-select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <input type="text" formControlName="whereToFind" id="where_find" class="form-control" mdbInput>
+                  <label for="where_find">- Where To Find -</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <input type="text" formControlName="whenToPost" id="when_post" class="form-control" mdbInput>
+                  <label for="when_post">- When To post -</label>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" class="form-control" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" class="form-control" disabled="true">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="remit" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="remitsNote">
+
+                  </textarea>
+                  <label for="remit">- Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicRemitsForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicRemitsForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 9" label="Enter Network Details" [stepForm]="clinicNetworkForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Network Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicNetworkForm" (ngSubmit)="onSubmitClinicNetwork()" (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <div class="md-form" (click)="onPopulateDropDown()">
+                  <div [hidden]="!isLoading" class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <mdb-select formControlName="insuranceCompId" [hidden]="isLoading" [options]="remitsOptionsSelect"
+                              placeholder="- Insurance Company -"></mdb-select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="md-form">
+
+                  <mdb-select formControlName="inNetwork"  [options]="networkOptionsSelect"
+                              placeholder="- In Network -"></mdb-select>
+
+<!--                  <input type="text" formControlName="inNetwork" id="0_1" class="form-control" mdbInput>-->
+<!--                  <label for="0_1">- In Network -</label>-->
+                </div>
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <input type="date" formControlName="inNetworkDate" id="0_2" class="form-control" mdbInput>
+                  <label for="0_2">- In Network Date -</label>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="fileClaimTo" class="form-control"
+                       placeholder="File Claim To">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" class="form-control" disabled="true">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="network" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="networkNote">
+
+                  </textarea>
+                  <label for="network">- Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicNetworkForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicNetworkForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+
+
+    <mdb-step name="Step 10" label="Enter Clinic Office Hours Details" [stepForm]="clinicOfficeHoursForm">
+      <mdb-card>
+        <mdb-card-header class="default-color white-text text-center py-4">
+          <h5>
+            <strong> {{clinicName}} Add Clinic Office Hours Details</strong>
+          </h5>
+        </mdb-card-header>
+
+        <!--Card content-->
+        <mdb-card-body class="px-lg-5">
+          <!-- Default form row -->
+          <form [formGroup]="clinicOfficeHoursForm" (ngSubmit)="onSubmitClinicOfficeHour()"
+                (change)="onAssignClinicId()">
+            <!-- Grd row -->
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="monday" class="form-control" [value]="officeHoursWeek.monday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="monday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="monday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="tuesday" name="ss" class="form-control" [value]="officeHoursWeek.tuesday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="tuesday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="tuesday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="wednesday" name="ss" class="form-control" [value]="officeHoursWeek.wednesday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="wednesday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="wednesday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="thursday" name="ss" class="form-control" [value]="officeHoursWeek.thursday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="thursday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="thursday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="friday" name="ss" class="form-control" [value]="officeHoursWeek.friday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="friday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="friday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="saturday" name="ss" class="form-control" [value]="officeHoursWeek.saturday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="saturday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="saturday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <!-- Grid column -->
+              <div class="col">
+                <input mdbInput type="text" formControlName="sunday" name="ss" class="form-control" [value]="officeHoursWeek.sunday" disabled="true">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="sunday_open" class="form-control" placeholder="- Open Hour -">
+              </div>
+              <div class="col">
+                <input mdbInput type="text" formControlName="sunday_closed" class="form-control" placeholder="- Close Hours -">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <div class="col">
+              </div>
+              <div class="col">
+              </div>
+              <div class="col">
+                <div class="md-form">
+                  <mdb-icon fas icon="pencil-alt" class="prefix"></mdb-icon>
+                  <textarea id="hrs" class="md-textarea form-control" mdbInput type="text"
+                            formControlName="officeHoursNote">
+
+                  </textarea>
+                  <label for="hrs">- Note -</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="right">
+              <input mdbBtn type="Reset" color="warning" mdbWavesEffect (click)="resetClinicOfficeHoursForm()">
+              <input mdbBtn type="submit" color="default" mdbWavesEffect [disabled]="!clinicOfficeHoursForm.valid"
+                     (click)="stepper.next()">
+            </div>
+          </form>
+        </mdb-card-body>
+      </mdb-card>
+    </mdb-step>
+  </mdb-stepper>
+
+
+</div>
+
+<app-home-page></app-home-page>
+

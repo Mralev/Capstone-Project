@@ -1,0 +1,235 @@
+<!--Double navigation-->
+<header>
+  <!-- Sidebar navigation -->
+  <mdb-side-nav #sidenav class="grey-dark fixed" [fixed]="true">
+
+    <mdb-navbar-brand>
+      <!-- Logo -->
+      <li>
+        <div class="logo-wrapper waves-light">
+          <a routerLink="/home"><img
+            src="../../assets//moneyTreeBilling-12.png"
+            class="img-fluid flex-center"></a>
+        </div>
+      </li>
+      <!--/. Logo -->
+    </mdb-navbar-brand>
+
+    <links>
+      <!--Social connect-->
+      <li>
+        <ul class="social">
+          <li><a class="icons-sm fb-ic"></a></li>
+        </ul>
+      </li>
+      <!--/Social-->
+
+      <li>
+        <ul class="collapsible collapsible-accordion">
+          <mdb-accordion [multiple]="false" aria-multiselectable="false">
+
+            <!-- Simple link -->
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head routerLink="/home" mdbWavesEffect><i class="fa fa-home" aria-hidden="true"></i>
+                Home
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <!-- Simple link -->
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect><i class="fas fa-folder-open"></i>Resources
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <!-- Collapsible link -->
+            <mdb-accordion-item>
+              <mdb-accordion-item-head [isDisabled]="disableFav" mdbWavesEffect><i class="fas fa-star"></i>Favorite
+                Clinic(s)
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li *ngFor="let data of favoriteClinicData; let i = index">
+                    <a (click)="onOpenClinic(data.clinics[0].displayName); frame_open.show()"
+                       mdbWavesEffect>{{data.clinics[0].displayName}}</a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <div class="admin-container " [hidden]=!isAdmin>
+
+              <h6 class="admin-head">ADMIN</h6>
+
+              <!-- Collapsible link -->
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <i class="fas fa-clinic-medical"></i>
+                  Clinic
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/admin-clinic-create" mdbWavesEffect>Create Clinic </a></li>
+                    <li><a routerLink="/admin-clinic-create" mdbWavesEffect>Manage Clinics</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <mdb-icon fas icon="user-alt"></mdb-icon>
+                  User
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/admin-user-create" mdbWavesEffect>Create User </a></li>
+                    <li><a routerLink="/admin-user-manage" mdbWavesEffect>Manage Users</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <mdb-icon fas icon="building"></mdb-icon>
+                  Insurance Company
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/insurance-company-create" mdbWavesEffect>Create Insurance Company</a></li>
+                    <li><a routerLink="/insurance-company-manage" mdbWavesEffect>Manage Insurance Company</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <i class="fa fa-user-md"></i>
+                  Contact
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/contact-create" mdbWavesEffect>Create Contact</a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Manage Contact</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <mdb-icon fas icon="file"></mdb-icon>
+                  Website Logins
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/website-logins-create" mdbWavesEffect>Create Website Login</a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Delete Website Login</a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Manage Website Login</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+
+              <mdb-accordion-item>
+                <mdb-accordion-item-head mdbWavesEffect>
+                  <mdb-icon fas icon="asterisk"></mdb-icon>
+                  Field
+                </mdb-accordion-item-head>
+                <mdb-accordion-item-body>
+                  <ul>
+                    <li><a routerLink="/working" mdbWavesEffect>Create Field </a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Delete Field</a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Update Field</a></li>
+                    <li><a routerLink="/working" mdbWavesEffect>Manage Fields</a></li>
+                  </ul>
+                </mdb-accordion-item-body>
+              </mdb-accordion-item>
+            </div>
+
+
+          </mdb-accordion>
+        </ul>
+      </li>
+      <!--/. Side navigation links -->
+    </links>
+    <div class="sidenav-bg mask-strong"></div>
+  </mdb-side-nav>
+
+  <!--/. Sidebar navigation -->
+
+  <!-- Navbar -->
+  <mdb-navbar style="color: white"
+              SideClass="navbar navbar-light blue-grey lighten-5 fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav"
+              [containerInside]="false">
+
+    <navlinks class="navbar-container">
+      <!-- SideNav slide-out button -->
+      <div class="float-left">
+        <a (click)="sidenav.show()" class="button-collapse"><span style="color: black"><mdb-icon fas
+                                                                                                 icon="bars"></mdb-icon></span></a>
+      </div>
+      <!--/. SideNav slide-out button -->
+    </navlinks>
+
+    <navlinks>
+      <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon fas icon="user"></mdb-icon>
+            <span
+              class="clearfix d-none d-sm-inline-block">{{ loggedInUser }}</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link waves-light" (click)="onLogout()" mdbWavesEffect><i
+            class="fas fa-sign-out-alt"></i> <span
+            class="clearfix d-none d-sm-inline-block">logout</span></a>
+        </li>
+      </ul>
+    </navlinks>
+  </mdb-navbar>
+  <!--/. Navbar -->
+
+</header>
+<!--/.Double navigation-->
+
+<!--Main Layout-->
+<main>
+  <div class="top-space">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+<!--/Main layout-->
+
+
+<!-- open confirm model-->
+<div mdbModal #frame_open="mdbModal" class="modal fade top" id="frameOne" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Are you sure?</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <p>Open clinic <strong>{{selectedClinicName}}</strong></p>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a href="/home" mdbBtn color="success" outline="true" class="waves-effect"
+           (click)="onOpenClinic(selectedClinicName)" (click)="frame_open.hide()" routerLink="/clinic" mdbWavesEffect>Yes</a>
+        <a type="button" mdbBtn color="success" class="waves-effect" mdbWavesEffect data-dismiss="modal"
+           (click)="frame_open.hide()">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
